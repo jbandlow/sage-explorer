@@ -109,7 +109,13 @@ def invariants_view(self, command):
     return "<ul>" + " ".join("<li>" + url_generator_for_invariant(invariant, command) for invariant in invariants) + "</ul>"
 
 def url_generator_for_invariant(invariant, command):
-  return "<a href='/%s.%s()'>%s</a>" % (command, invariant, invariant)
+  # if is_combinatorial:
+  #   style = 'style="color: red";'
+  #   value = ": " + str(eval(command + '.invariant()'))  ## Can we act on the object and not re-eval the command?
+  # else:
+  style = ''
+  value = ''
+  return "<a href='/%s.%s()' %s>%s</a>%s" % (command, invariant, style, invariant, value)
 
 # Stupid test that we are not running within Sage
 if not "Permutations" in globals():
