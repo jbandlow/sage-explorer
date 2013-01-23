@@ -35,13 +35,13 @@ def invariants_view(self, command):
 
         sage: print invariants_view(Permutation([2,1]), "foo")
         <ul>
-        <a href='/foo.bruhat_greater()'>bruhat_greater</a>
-        <a href='/foo.bruhat_inversions()'>bruhat_inversions</a>
+        <li><a href='/foo.bruhat_greater()'>bruhat_greater</a>
+        <li><a href='/foo.bruhat_inversions()'>bruhat_inversions</a>
         ...
         </ul>
     """
     invariants = argument_less_methods_of_object(self)
-    return "<ul>\n"+"\n".join("<a href='/%s.%s()'>%s</a>"%(command, invariant, invariant) for invariant in invariants)+"\n</ul>\n"
+    return "<ul>\n"+"\n".join("<li><a href='/%s.%s()'>%s</a>"%(command, invariant, invariant) for invariant in invariants)+"\n</ul>\n"
 
 # Stupid test that we are not running within Sage
 if __name__ == "__main__" and not "Permutations" in globals():
