@@ -19,12 +19,46 @@ def header():
 def hello(command):
   sage_output = eval(command)
   output = header() + "<body>"
-  output += "<h1>Behold! The result of %s: </h1>" % command
-  output += "$$" + latex(sage_output) + "$$"
-  output += "<h1>Explore more with these links!</h1>"
-  output += invariants_view(sage_output, command)
+  # Here we would need a cube-style selector mechanism
+  # Runtime type checking for now.
+  if isinstance(sage_output, (list, tuple)):
+    output += view_list(sage_output, command)
+  else:
+    output += view_sage_object(sage_output, command)
   output += "</body>"
   return output
+
+def view_list(self, command):
+  """
+  TODO
+
+  EXAMPLES::
+
+      sage: l = [1,2,3,4]
+      sage: view_list(l, "l")
+      "[<a href='/l[0]'>1</a>,<a href='/l[1]'>2</a>,<a href='/l[2]'>3</a>,<a href='/l[3]'>4</a>]"
+  """
+  return "["+','.join("<a href='/%s[%s]'>%s</a>"%(command, i, self[i]) for i in range(len(self)))+"]"
+
+def view_sage_object(self, command):
+  """
+  TODO
+  """
+  output = ""
+  output += "<h1>Behold! The result of %s: </h1>" % command
+  output += "$$" + latex(self) + "$$"
+  output += "<h1>Explore more with these links!</h1>"
+  output += invariants_view(self, command)
+  return output
+
+def view_element(self):
+  pass
+
+def view_parent(self):
+  pass
+
+def view_permutation(self):
+  pass
 
 def argument_less_methods_of_object(x):
   """
