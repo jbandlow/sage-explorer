@@ -4,7 +4,7 @@ from sage.all import *
 app = Flask(__name__)
 
 @app.route("/<command>")
-def hello(command):
+def header():
   return """
   <head>
   <script type="text/x-mathjax-config">
@@ -14,8 +14,10 @@ def hello(command):
     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
   </script>
   </head>
-  <body>
-  """ + "$$" + str(eval(command)) + "$$" + "</body>"
+  """
+
+def hello(command):
+  return "<body>" + str(eval(command)) + "</body>"
 
 if __name__ == "__main__":
   app.run()
