@@ -50,7 +50,10 @@ def invariants_view(self, command):
         </ul>
     """
     invariants = argument_less_methods_of_object(self)
-    return "<ul>\n"+"\n".join("<li><a href='/%s.%s()'>%s</a>"%(command, invariant, invariant) for invariant in invariants)+"\n</ul>\n"
+    return "<ul>\n"+"\n".join("<li>" + url_generator_for_invariant(invariant, command) for invariant in invariants), "\n</ul>\n"
+
+def url_generator_for_invariant(invariant, command):
+  return "<a href='/%s.%s()'>%s</a>" % (command, invariant, invariant)
 
 # Stupid test that we are not running within Sage
 if __name__ == "__main__" and not "Permutations" in globals():
