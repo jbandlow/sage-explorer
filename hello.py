@@ -1,22 +1,31 @@
 import inspect
 from flask import Flask
-import sage.all
+from sage.all import *
 
 app = Flask(__name__)
 
+def header():
+  return """
+    <head>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </head>
+    """
+
 @app.route("/<command>")
 def hello(command):
-  return """
-  <head>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-  </script>
-  <script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
-  </head>
-  <body>
-  """ + "$$" + latex(eval(command)) + "$$" + "</body>"
+  sage_output = eval(command)
+  output = header + "<body>"
+  output += "<h1>Behold! The result of %s: </h1>" % command
+  output += "$$" + latex(sage_output) + "$$"
+  output += "<h1>Explore more with these links!</h1>"
+  output += invariants_view(sage_output, command)
+  output += "</body>"
+  return output
 
 def argument_less_methods_of_object(x):
   """
@@ -45,4 +54,4 @@ def invariants_view(self, command):
 
 # Stupid test that we are not running within Sage
 if __name__ == "__main__" and not "Permutations" in globals():
-  app.run()
+  app.run(debug=True)
