@@ -1,32 +1,28 @@
 import inspect
 from flask import Flask
+from flask import Markup
+from flask import render_template
 
 app = Flask(__name__)
 
-def header():
-  return """
-    <head>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
-    <script type="text/javascript"
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-    </head>
-    """
-
 @app.route("/<command>")
 def hello(command):
+  """
+  This is responsible for defining object_output (HTML representing the object)
+  and optionally object_methods_output (HTML representing methods that can be
+  applied to the object).
+  """
   sage_output = eval(command)
-  output = header() + "<body>"
   # Here we would need a cube-style selector mechanism
   # Runtime type checking for now.
   if isinstance(sage_output, (list, tuple)):
-    output += view_list(sage_output, command)
+    object_output = Markup(view_list(sage_output, command))
+    object_methods_output = None
   else:
-    output += view_sage_object(sage_output, command)
-  output += "</body>"
-  return output
+    object_output = Markup(view_sage_object(sage_output, command))
+    object_methods_output = Markup(view_sage_object_methods(sage_output, command))
+  return render_template('template.html', sage_command=command,
+      object_output=object_output, object_methods_output=object_methods_output)
 
 def view_list(self, command):
   """
@@ -38,18 +34,19 @@ def view_list(self, command):
       sage: view_list(l, "l")
       "[<a href='/l[0]'>1</a>,<a href='/l[1]'>2</a>,<a href='/l[2]'>3</a>,<a href='/l[3]'>4</a>]"
   """
-  return "["+','.join("<a href='/%s[%s]'>%s</a>"%(command, i, self[i]) for i in range(len(self)))+"]"
+  return "[" + ','.join(url_generator_for_list_item(command, self, i) for i in range(len(self))) + "]"
+
+def url_generator_for_list_item(command, list_object, index):
+  return "<a href='/%s[%s]'>%s</a>" % (command, index, list_object[index])
 
 def view_sage_object(self, command):
   """
   TODO
   """
-  output = ""
-  output += "<h1>Behold! The result of %s: </h1>" % command
-  output += "$$" + latex(self) + "$$"
-  output += "<h1>Explore more with these links!</h1>"
-  output += invariants_view(self, command)
-  return output
+  return "$$" + latex(self) + "$$"
+
+def view_sage_object_methods(self, command):
+  return invariants_view(self, command)
 
 def view_element(self):
   pass
@@ -83,7 +80,7 @@ def invariants_view(self, command):
         </ul>
     """
     invariants = argument_less_methods_of_object(self)
-    return "<ul>\n"+"\n".join("<li>" + url_generator_for_invariant(invariant, command) for invariant in invariants), "\n</ul>\n"
+    return "<ul>" + " ".join("<li>" + url_generator_for_invariant(invariant, command) for invariant in invariants) + "</ul>"
 
 def url_generator_for_invariant(invariant, command):
   return "<a href='/%s.%s()'>%s</a>" % (command, invariant, invariant)
