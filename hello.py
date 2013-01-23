@@ -57,6 +57,24 @@ def view_parent(self):
 def view_permutation(self):
   pass
 
+def is_argument_less_method(f):
+  """
+  EXAMPLES::
+
+      sage: is_argument_less_method(1.factor)
+      True
+      sage: is_argument_less_method(1.is_idempotent)
+      True
+  """
+  try:
+    arg_spec = sage.misc.sageinspect.sage_getargspec(f)
+  except:
+    return False
+  l = len(arg_spec.args)
+  if arg_spec.defaults is not None:
+    l -= len(arg_spec.defaults)
+  return l == 1
+
 def argument_less_methods_of_object(x):
   """
   Returns the list of the names of the methods of ``x`` that take no argument, excluding _methods
@@ -66,7 +84,9 @@ def argument_less_methods_of_object(x):
       sage: argument_less_methods_of_object(1)
       ['is_idempotent']
   """
-  return [ key for (key, f) in inspect.getmembers(x, inspect.ismethod) if len(inspect.getargspec(f).args)==1 and not key[0] == "_"]
+  return [ key
+           for (key, f) in inspect.getmembers(x, inspect.isroutine)
+           if not key[0] == "_" and is_argument_less_method(f) ]
 
 def invariants_view(self, command):
     """
