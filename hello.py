@@ -21,8 +21,14 @@ def hello(command):
   else:
     object_output = Markup(view_sage_object(sage_output, command))
     object_methods_output = Markup(view_sage_object_methods(sage_output, command))
+  help_output = get_help(sage_output)
   return render_template('template.html', sage_command=command,
-      object_output=object_output, object_methods_output=object_methods_output)
+      object_output=object_output, object_methods_output=object_methods_output,
+      help_output=help_output)
+
+def get_help(sage_output):
+  return Markup(sagenb.misc.support.docstring("x", {"x": sage_output}))
+
 
 def view_list(self, command):
   """
