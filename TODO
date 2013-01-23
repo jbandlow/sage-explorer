@@ -1,5 +1,27 @@
 * [1/4] Features
 - [X] Handle Cython methods
 - [ ] Link to the help page
+      sagenb.misc.support.docstring("x", {"x":Partition([2])})
 - [ ] Form for parameter input
-- [ ] lists
+- [-] lists
+- [ ] methods on a list should be displayed, like for other objects
+- [ ] call latex on the elements of a list
+- [ ] specify the parent of an element, the category of a parent
+- [ ] call the preparser on the command?
+- [ ] Icon to bring up a little interpreter as in the stack traces
+- [ ] Front page, with pointers to a couple interesting objects
+- [ ] A way to input polynomials, variables, ...
+- [ ] Multi-expression commands
+- [ ] A form to input a sequence of commands to create non trivial objects
+- [ ] Educational feature: at any point, the user should be able (and encouraged) to reproduce its action within Sage
+
+* [/] BUGS
+- [ ] Handle quoting properly
+- [ ] Handle exceptions properly
+- [ ] Handle objects such that mathjax can't display properly the latex representation
+- [ ] Define \Bold, ... in mathjax
+- [ ] Handle nicely objects with no methods
+- [ ] SECURITY!!!
+
+* TODO Document/doctest the prototype so that someone could possibly take on from it
+* TODO Lookup if there is not already a Python explorer somewhere
