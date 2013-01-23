@@ -1,6 +1,5 @@
 import inspect
 from flask import Flask
-from sage.all import *
 
 app = Flask(__name__)
 
@@ -19,7 +18,7 @@ def header():
 @app.route("/<command>")
 def hello(command):
   sage_output = eval(command)
-  output = header + "<body>"
+  output = header() + "<body>"
   output += "<h1>Behold! The result of %s: </h1>" % command
   output += "$$" + latex(sage_output) + "$$"
   output += "<h1>Explore more with these links!</h1>"
@@ -53,5 +52,7 @@ def invariants_view(self, command):
     return "<ul>\n"+"\n".join("<li><a href='/%s.%s()'>%s</a>"%(command, invariant, invariant) for invariant in invariants)+"\n</ul>\n"
 
 # Stupid test that we are not running within Sage
-if __name__ == "__main__" and not "Permutations" in globals():
-  app.run(debug=True)
+if not "Permutations" in globals():
+  from sage.all import *
+  if __name__ == "__main__":
+    app.run(debug=True)
