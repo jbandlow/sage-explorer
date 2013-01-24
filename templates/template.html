@@ -23,26 +23,28 @@
     <h2>Output:</h2>
     <center>
       {% block object %}
-        <p>
+      <p>
         {{ base.display_from_template(object_data['data'], object_data['style']) }}
         </p>
       {% endblock object %}
       {% block invariants %}
-        {% for invariant in invariants %}
-          <p>{{ base.display_from_template(invariant['data'], invariant['style']) }}</p>
+      {% for invariant in invariants %}
+        <p>
+        {% if invariant['name'] is defined %}
+        {{ invariant['name'] }}:
+        {% endif %}
+         {{ base.display_from_template(invariant['data'], invariant['style']) }}</p>
         {% endfor %}
       {% endblock invariants %}
     </center>
     {% endblock output %}
 
-    {#
     {% block methods %}
-      {% if object_methods_list_of_links %}
-        <h2>Explore more with the following methods:</h2>
-        {{ base.display_inline_list_of_links(object_methods_list_of_links)
+      {% if object_methods %}
+        <h2>Methods:</h2>
+        {{ base.display_list_of_links(object_methods['data']) }}
       {% endif %}
     {% endblock methods %}
-    #}
 
     {% block help %}
       <h2>Help</h2>

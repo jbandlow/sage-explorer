@@ -4,44 +4,20 @@
     <a href="{{link}}">{{text}}</a>
 {%- endmacro %}
 
-{% macro display_inline_list_of_links(item_link_pairs) -%}
+{% macro display_inline_list_of_links(item_list) -%}
     [
     {%- for item, link in item_link_pairs %}
-        {{ display_link(link, item) }},
+        {{ display_link(item['link'], item['name']) }},
     {%- endfor %}
     ]
 {%- endmacro %}
 
-{% macro display_ul_list_of_links(item_link_pairs) -%}
+{% macro display_list_of_links(item_list) -%}
     <ul>
-    {%- for item, link in item_link_pairs %}
-        <li>{{ display_link(link, item) }}
+    {%- for item in item_list %}
+        <li>{{ display_link(item['link'], item['name']) }}
     {%- endfor %}
     </ul>
-{%- endmacro %}
-
-{% macro display_table(table) -%}
-    <pre>table</pre>
-{%- endmacro %}
-
-{#  Functions specific to sage objects.  These will
-    need to be moved to individual template files #}
-
-{% macro display_latex(tex_string) -%}
-    $ {{ tex_string }} $
-{%- endmacro %}
-
-{% macro sage_object_latex_view_template(tex_string) -%}
-    Latex output:
-    <center> {{ display_latex(tex_string) }} $ </center>
-{%- endmacro %}
-
-{% macro display_sage_parent(category, link_to_category) -%}
-    A parent in {{ display_link(link_to_category, category) }}.
-{%- endmacro %}
-
-{% macro display_finite_semigroup(multiplication_table) -%}
-    Multiplication table: {{ display_table(multiplication_table) }}
 {%- endmacro %}
 
 {% macro display_from_template(data, template) %}
