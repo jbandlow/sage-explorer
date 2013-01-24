@@ -27,6 +27,8 @@
       - [ ] categories: list of axioms
       - [ ] view component for graphs
       - [ ] show / plot / ...
+      - [ ] cayley_table component for a semigroup
+      - [ ] 
 - [ ] Every visual component should be separated into model + view (html template)
 
 * [/] BUGS
@@ -39,3 +41,39 @@
 
 * TODO Document/doctest the prototype so that someone could possibly take on from it
 * TODO Lookup if there is not already a Python explorer somewhere
+
+class CayleyTablePlugin(VisualComponentPlugin):
+    def predicate(self, sage_object):
+        return sage_object in FiniteSemigroups() and sage_object.cardinality() < 10
+
+    # With an intermediate abstraction layer
+    def view(self, sage_object):
+        return table_view(sage_object.multiplication_table())
+
+    # render html directly using a library of type-based templates
+    def view(self, sage_object):
+        return render_template('table.html',
+                               [sage_object.multiplication_table()])
+
+    # render html directly using a library of plugin-based templates
+    def view(self, sage_object):
+        return render_template('CayleyTablePlugin.html',
+                               [sage_object.multiplication_table()])
+
+class table_view:
+
+    def __init__(self, list):
+        self.list()
+
+    def html():
+        render_template(...)
+
+register_visual_component_plugin(CayleyTablePlugin())
+
+def hello(sage_object):
+
+    visual_components =
+    [ plugin.visual_component(sage_object) if plugin.predicate(sage_object) ]
+
+    return ''.join(compo.html() for compo in visual_components)
+
