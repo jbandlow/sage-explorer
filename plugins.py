@@ -4,21 +4,30 @@ from sage.misc.latex import latex
 from sage.categories.semigroups import Semigroups
 from sage.structure.parent import Parent
 from sage.structure.element import Element
-#from sage_explorer import display_object
 
 # Duplicated from sage-explorer
-def display_object(sage_object):
-    s = str(latex(sage_object))
+
+def display_object(sage_object, link=True):
+    #if isinstance(obj, (list, tuple)):
+    #    return {
+    #        "style" = "list",
+    #        "data" = map(obj,display_object),
+    #        }
+    s = str(latex(sage_object.value))
+    # This logic is about limitations of mathjax; should this it in the template?
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
-        return {
+        result = {
             "style": "text",
-            "data" : repr(sage_object),
+            "data" : repr(sage_object.value),
             }
     else:
-        return {
+        result = {
             "style": "latex",
             "data" : s,
             }
+    if link:
+        result["url"] = sage_object.url()
+    return result
 
 active_plugins = []
 
@@ -67,7 +76,7 @@ def invariants(obj):
 
 class ParentPlugin(VisualComponentPlugin):
     def predicate(self, obj):
-        return isinstance(obj, Element)
+        return isinstance(obj.value, Element)
 
     def render(self, obj):
         return {
@@ -78,7 +87,7 @@ ParentPlugin()
 
 class CategoryPlugin(VisualComponentPlugin):
     def predicate(self, obj):
-        return isinstance(obj, Parent)
+        return isinstance(obj.value, Parent)
 
     def render(self, obj):
         return {

@@ -6,6 +6,8 @@ import sagenb.misc.support
 import sage.misc.latex
 from sage.misc.latex import latex
 import plugins
+from plugins import display_object
+from reproducible_object import ReproducibleObject
 
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\verb")
@@ -28,7 +30,7 @@ def explore(sage_command):
     """
     TODO
     """
-    sage_output = eval(sage_command)
+    sage_output = ReproducibleObject(sage_command)
     #parent = display_parent(sage_output, command)
     #category = display_category(sage_output, command)
     #object_template, object_content = display_object(sage_output, command)
@@ -36,8 +38,8 @@ def explore(sage_command):
     invariants = []
     return render_template(
         'template.html',
-        sage_command = sage_command,
-        object_data = display_object(sage_output),
+        sage_command = sage_output.command,
+        object_data = display_object(sage_output, link=false),
         object_help = display_help(sage_output),
         invariants  = plugins.invariants(sage_output),
         )
@@ -47,25 +49,6 @@ def explore(sage_command):
 #     return render_template('index.html',
 #         objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>" +
 #           "<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>" for command in EXAMPLES)))
-
-def display_object(sage_object):
-    #if isinstance(obj, (list, tuple)):
-    #    return {
-    #        "style" = "list",
-    #        "data" = map(obj,display_object),
-    #        }
-    s = str(latex(sage_object))
-    # This logic is about limitations of mathjax; should this it in the template?
-    if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
-        return {
-            "style": "text",
-            "data" : repr(sage_object),
-            }
-    else:
-        return {
-            "style": "latex",
-            "data" : s,
-            }
 
 
 ##############################################################################
