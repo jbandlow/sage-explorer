@@ -1,19 +1,33 @@
-* [1/4] Features
+* [7/18] Features
+- [X] Front page, with pointers to a couple interesting objects
 - [X] Handle Cython methods
-- [ ] Link to the help page
+- [X] Link to the help page
       sagenb.misc.support.docstring("x", {"x":Partition([2])})
 - [ ] Form for parameter input
-- [-] lists
-- [ ] methods on a list should be displayed, like for other objects
-- [ ] call latex on the elements of a list
-- [ ] specify the parent of an element, the category of a parent
+- [ ] A form to input a sequence of commands to create non trivial objects
+- [X] lists
+- [X] methods on a list should be displayed, like for other objects
+      DONE, but not that useful currently: the only method is __len__
+      which gets hidden ...
+- [X] call latex on the elements of a list
+- [X] specify the parent of an element, the category of a parent
 - [ ] call the preparser on the command?
 - [ ] Icon to bring up a little interpreter as in the stack traces
-- [ ] Front page, with pointers to a couple interesting objects
 - [ ] A way to input polynomials, variables, ...
 - [ ] Multi-expression commands
-- [ ] A form to input a sequence of commands to create non trivial objects
 - [ ] Educational feature: at any point, the user should be able (and encouraged) to reproduce its action within Sage
+- [ ] Docstring tooltip for each method in the the list of methods
+- [ ] Plugin mechanism for visual components
+      if object o satisfies property x, add visual component y(o)
+- [ ] visual components plugins
+      - [ ] latex visualization, if available
+      - [ ] text visualization
+      - [ ] categories: list of implementations
+      - [ ] categories: list of constructions
+      - [ ] categories: list of axioms
+      - [ ] view component for graphs
+      - [ ] show / plot / ...
+- [ ] Every visual component should be separated into model + view (html template)
 
 * [/] BUGS
 - [ ] Handle quoting properly
