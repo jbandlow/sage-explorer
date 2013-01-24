@@ -10,8 +10,10 @@
     </script>
   </head>
   <body>
-    <h2>The command: {{ sage_command }} has the output: </h2>
-    {{ object_output }}
+    <h2>Command:</h2>
+    <pre>{{ sage_command }}</pre>
+    <h2>Output:</h2>
+    <center>{{ object_output }}</center>
     {% if object_methods_output %}
       <h2>Explore more with the following methods:</h2>
       {{ object_methods_output }}
