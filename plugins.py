@@ -104,7 +104,7 @@ class Invariant(VisualComponentPlugin):
         self._category = category
 
     def predicate(self, obj):
-        return obj in self._category
+        return obj.value in self._category
 
     def render(self, obj):
         return {
