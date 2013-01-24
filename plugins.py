@@ -1,10 +1,9 @@
 from sage.misc.abstract_method import abstract_method
 import sage.misc.latex
 from sage.misc.latex import latex
-from sage.categories.semigroups import Semigroups
+from sage.categories.category import Category
 from sage.structure.parent import Parent
 from sage.structure.element import Element
-from reproducible_object import ReproducibleObject
 
 # Duplicated from sage-explorer
 
@@ -103,10 +102,12 @@ class CategoryPlugin(VisualComponentPlugin):
 CategoryPlugin()
 
 class Invariant(VisualComponentPlugin):
-    def __init__(self, invariant, category):
+    def __init__(self, invariant, predicate):
         VisualComponentPlugin.__init__(self)
         self._invariant = invariant
-        self._category = category
+        if isinstance(predicate, Category):
+            predicate = predicate.__contains__
+        self.predicate = predicate
 
     def predicate(self, obj):
         return obj.value in self._category
@@ -117,52 +118,9 @@ class Invariant(VisualComponentPlugin):
             "name" : self._invariant,
             "data" : display_object(obj.multiplication_table()),
             }
-Invariant("multiplication_table", Semigroups());
 
-def view_element(self, command):
-    return view_sage_object(self, command) + "<br>An element of "+view_sage_object_with_link(self.parent(),command+".parent()")
+from sage.categories.finite_enumerated_sets import FiniteEnumeratedSets
+from sage.categories.finite_semigroups import FiniteSemigroups
 
-
-
-#class CategoryListOfConstructionViewPlugin(...)
-
-#    style = "list_of_linked_objects"
-
-#class CategoryListOfAxiomsViewPlugin(...)
-
-#    style = "list_of_linked_objects"
-
-
-
-
-# def view_list(self, command):
-#     """
-#     TODO
-
-#     EXAMPLES::
-
-#     sage: l = [1,2,3,4]
-#     sage: view_list(l, "l")
-#     "[<a href='/l[0]'>1</a>,<a href='/l[1]'>2</a>,<a href='/l[2]'>3</a>,<a href='/l[3]'>4</a>]"
-#     """
-#     return "[" + ','.join(view_sage_object_with_link(self[i], command+"[%s]"%i) for i in range(len(self))) + "]"
-
-# def view_sage_object_with_link(self, command):
-#     return "<a href=%s>%s</a>" % (quoteattr(command), view_sage_object(self, "/"+command))
-
-
-
-def view_sage_object_methods(self, command):
-    return invariants_view(self, command)
-
-def view_parent(self, command):
-    return view_sage_object(self, command) + "<br>A parent in "+view_sage_object_with_link(self.category(),command+".category()")
-
-def view_finite_semigroup(self, command):
-    s = view_parent(self, command)
-    if self.cardinality() < 30:
-        s += "<br>Multiplication table: <pre>%s</pre>"%(self.cayley_table())
-        return s
-
-def view_permutation(self):
-    pass
+Invariant("multiplication_table", lambda x: x in FiniteSemigroups() and x.cardinality() < 10);
+Invariant("cardinality", FiniteEnumeratedSets());

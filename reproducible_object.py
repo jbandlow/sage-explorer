@@ -1,4 +1,4 @@
-from xml.sax.saxutils import escape, quoteattr
+from xml.sax.saxutils import quoteattr
 from sage.all import *
 
 class ReproducibleObject:
