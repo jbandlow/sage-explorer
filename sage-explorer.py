@@ -9,11 +9,6 @@ import plugins
 from plugins import display_object
 from reproducible_object import ReproducibleObject
 
-sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
-sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\verb")
-sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
-
-
 app = Flask(__name__)
 
 EXAMPLES = [
