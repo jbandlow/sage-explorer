@@ -10,8 +10,6 @@ import plugins
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\verb")
 sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
-#from sage.structure.parent import Parent
-#from sage.structure.element import Element
 
 
 app = Flask(__name__)
@@ -39,8 +37,9 @@ def explore(sage_command):
     return render_template(
         'template.html',
         sage_command = sage_command,
-        object_data = display_object(sage_output, sage_command),
+        object_data = display_object(sage_output),
         object_help = display_help(sage_output),
+        invariants  = plugins.invariants(sage_output),
         )
 
 # @app.route("/DISABLED")
@@ -49,7 +48,7 @@ def explore(sage_command):
 #         objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>" +
 #           "<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>" for command in EXAMPLES)))
 
-def display_object(sage_object, command):
+def display_object(sage_object):
     #if isinstance(obj, (list, tuple)):
     #    return {
     #        "style" = "list",

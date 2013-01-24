@@ -1,9 +1,14 @@
 from sage.misc.abstract_method import abstract_method
+import sage.misc.latex
+from sage.misc.latex import latex
+from sage.categories.semigroups import Semigroups
+from sage.structure.parent import Parent
+from sage.structure.element import Element
 #from sage_explorer import display_object
 
 # Duplicated from sage-explorer
-def display_object(sage_object, command):
-    s = latex(sage_object)
+def display_object(sage_object):
+    s = str(latex(sage_object))
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
         return {
             "style": "text",
@@ -28,7 +33,7 @@ class VisualComponentPlugin:
 
         EXAMPLES::
 
-            sage: TODO
+            sage: TODO # todo: not implemented
         """
 
     @abstract_method
@@ -38,7 +43,7 @@ class VisualComponentPlugin:
 
         EXAMPLES::
 
-            sage: TODO
+            sage: TODO # todo: not implemented
         """
 
 def invariants(obj):
@@ -46,20 +51,58 @@ def invariants(obj):
     EXAMPLES::
 
         sage: invariants(1)
+        [{'style': 'invariant_parent',
+          'data': {'style': 'latex', 'data': '\\Bold{Z}'}}]
+        sage: invariants(DihedralGroup(2))
+        [{'style': 'invariant_category',
+          'data': {'style': 'latex', 'data': '\\mathbf{FinitePermutationGroups}'}},
+         {'style': 'invariant',
+          'data': {'style': 'latex',
+                   'data': '{\\setlength{\\arraycolsep}{2\\ex}\n\\begin{array}{r|*{4}{r}}\n\\multicolumn{1}{c|}{\\ast}&a&b&c&d\\\\\\hline\n{}a&a&b&c&d\\\\\n{}b&b&a&d&c\\\\\n{}c&c&d&a&b\\\\\n{}d&d&c&b&a\\\\\n\\end{array}}'},
+                   'name': 'multiplication_table'}
+        ]
     """
-    [plugin.render(obj)
-     for plugin in active_plugins if plugin.predicate(obj)]
+    return [plugin.render(obj)
+            for plugin in active_plugins if plugin.predicate(obj)]
 
-class ElementViewPlugin(VisualComponentPlugin):
+class ParentPlugin(VisualComponentPlugin):
     def predicate(self, obj):
         return isinstance(obj, Element)
 
     def render(self, obj):
         return {
-            "template_name": "invariant_element",
+            "style": "invariant_parent",
             "data" : display_object(obj.parent()),
             }
-ElementViewPlugin()
+ParentPlugin()
+
+class CategoryPlugin(VisualComponentPlugin):
+    def predicate(self, obj):
+        return isinstance(obj, Parent)
+
+    def render(self, obj):
+        return {
+            "style": "invariant_category",
+            "data" : display_object(obj.category()),
+            }
+CategoryPlugin()
+
+class Invariant(VisualComponentPlugin):
+    def __init__(self, invariant, category):
+        VisualComponentPlugin.__init__(self)
+        self._invariant = invariant
+        self._category = category
+
+    def predicate(self, obj):
+        return obj in self._category
+
+    def render(self, obj):
+        return {
+            "style": "invariant",
+            "name" : self._invariant,
+            "data" : display_object(obj.multiplication_table()),
+            }
+Invariant("multiplication_table", Semigroups());
 
 def view_element(self, command):
     return view_sage_object(self, command) + "<br>An element of "+view_sage_object_with_link(self.parent(),command+".parent()")
@@ -68,29 +111,29 @@ def view_element(self, command):
 
 #class CategoryListOfConstructionViewPlugin(...)
 
-#    template_name = "list_of_linked_objects"
+#    style = "list_of_linked_objects"
 
 #class CategoryListOfAxiomsViewPlugin(...)
 
-#    template_name = "list_of_linked_objects"
+#    style = "list_of_linked_objects"
 
 
 
 
-def view_list(self, command):
-    """
-    TODO
+# def view_list(self, command):
+#     """
+#     TODO
 
-    EXAMPLES::
+#     EXAMPLES::
 
-    sage: l = [1,2,3,4]
-    sage: view_list(l, "l")
-    "[<a href='/l[0]'>1</a>,<a href='/l[1]'>2</a>,<a href='/l[2]'>3</a>,<a href='/l[3]'>4</a>]"
-    """
-    return "[" + ','.join(view_sage_object_with_link(self[i], command+"[%s]"%i) for i in range(len(self))) + "]"
+#     sage: l = [1,2,3,4]
+#     sage: view_list(l, "l")
+#     "[<a href='/l[0]'>1</a>,<a href='/l[1]'>2</a>,<a href='/l[2]'>3</a>,<a href='/l[3]'>4</a>]"
+#     """
+#     return "[" + ','.join(view_sage_object_with_link(self[i], command+"[%s]"%i) for i in range(len(self))) + "]"
 
-def view_sage_object_with_link(self, command):
-    return "<a href=%s>%s</a>" % (quoteattr(command), view_sage_object(self, "/"+command))
+# def view_sage_object_with_link(self, command):
+#     return "<a href=%s>%s</a>" % (quoteattr(command), view_sage_object(self, "/"+command))
 
 
 
