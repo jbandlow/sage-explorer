@@ -1,5 +1,5 @@
 {% macro display(text_string) -%}
-    {{ text_string }}
+    {{ text_string|safe }}
 {%- endmacro %}
 
 
