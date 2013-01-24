@@ -36,10 +36,6 @@
     <center> {{ display_latex(tex_string) }} $ </center>
 {%- endmacro %}
 
-{% macro display_sage_element(parent, link_to_parent) -%}
-    An element of {{ display_link(link_to_parent, parent) }}.
-{%- endmacro %}
-
 {% macro display_sage_parent(category, link_to_category) -%}
     A parent in {{ display_link(link_to_category, category) }}.
 {%- endmacro %}
@@ -48,4 +44,8 @@
     Multiplication table: {{ display_table(multiplication_table) }}
 {%- endmacro %}
 
-
+{% macro display_from_template(data, template) %}
+    {% set template_file = template + ".html" %}
+    {% import template_file as displayer %}
+    {{ displayer.display(data) }}
+{%- endmacro %}

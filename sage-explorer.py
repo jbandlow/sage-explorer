@@ -39,8 +39,8 @@ def explore(sage_command):
     return render_template(
         'template.html',
         sage_command = sage_command,
-        object_data = display_object(sage_output),
-        object_help = display_help(sage_output),
+        object_data = object_data,
+        object_help = object_help,
         invariants  = plugins.invariants(sage_output),
         )
 
@@ -50,7 +50,7 @@ def explore(sage_command):
 #         objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>" +
 #           "<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>" for command in EXAMPLES)))
 
-def display_object(sage_object):
+def display_object(sage_object, sage_command):
     #if isinstance(obj, (list, tuple)):
     #    return {
     #        "style" = "list",
