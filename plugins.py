@@ -1,62 +1,78 @@
-from visual_component_plugin import VisualComponentPlugin
+from sage.misc.abstract_method import abstract_method
+#from sage_explorer import display_object
 
-sage.misc.latex.latex.add_to_mathjax_avoid_list([r"\multicolumn",r"\verb","None"])
+# Duplicated from sage-explorer
+def display_object(sage_object, command):
+    s = latex(sage_object)
+    if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
+        return {
+            "style": "text",
+            "data" : repr(sage_object),
+            }
+    else:
+        return {
+            "style": "latex",
+            "data" : s,
+            }
 
-class ListViewPlugin(VisualComponentPlugin):
+active_plugins = []
+
+class VisualComponentPlugin:
+    def __init__(self):
+        active_plugins.append(self)
+
+    @abstract_method
     def predicate(self, obj):
-        return isinstance(obj, (list, tuple))
+        """
+        Returns whether this plugin applies for the given object obj
 
-    template_name = "list_of_linked_objects_template"
+        EXAMPLES::
 
-    def data(self, obj):
-        return obj
-ListViewPlugin()
+            sage: TODO
+        """
 
-class SageObjectLatexViewPlugin(VisualComponentPlugin):
-    def predicate(self, obj):
-        return True
+    @abstract_method
+    def render(self, obj):
+        """
+        Render the plugin for the given object obj
 
-    template_name = "sage_object_latex_view_template"
+        EXAMPLES::
 
-    def data(self, obj):
-        s = latex(obj)
-        # This logic is about limitations of mathjax; should this it in the template?
-        if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()
-            return None
-        return s
-SageObjectLatexViewPlugin()
+            sage: TODO
+        """
 
-class SageObjectReprViewPlugin(VisualComponentPlugin):
-    def predicate(self, obj):
-        return True
+def invariants(obj):
+    """
+    EXAMPLES::
 
-    template_name = "repr_view_template"
-
-    def data(self, obj):
-        repr(obj)
-SageObjectReprViewPlugin()
+        sage: invariants(1)
+    """
+    [plugin.render(obj)
+     for plugin in active_plugins if plugin.predicate(obj)]
 
 class ElementViewPlugin(VisualComponentPlugin):
     def predicate(self, obj):
         return isinstance(obj, Element)
 
-    template_name = "element_view_template"
-
-    def data(self, obj):
-        return obj.parent()
+    def render(self, obj):
+        return {
+            "template_name": "invariant_element",
+            "data" : display_object(obj.parent()),
+            }
+ElementViewPlugin()
 
 def view_element(self, command):
     return view_sage_object(self, command) + "<br>An element of "+view_sage_object_with_link(self.parent(),command+".parent()")
 
 
 
-class CategoryListOfConstructionViewPlugin(...)
+#class CategoryListOfConstructionViewPlugin(...)
 
-    template_name = "list_of_linked_objects"
+#    template_name = "list_of_linked_objects"
 
-class CategoryListOfAxiomsViewPlugin(...)
+#class CategoryListOfAxiomsViewPlugin(...)
 
-    template_name = "list_of_linked_objects"
+#    template_name = "list_of_linked_objects"
 
 
 
