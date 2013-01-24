@@ -74,7 +74,7 @@ def view_sage_object(self, command):
   TODO
   """
   s = latex(self)
-  if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()+[r"\multicolumn",r"\verb"]):
+  if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()+[r"\multicolumn",r"\verb","None"]):
     return escape(repr(self))
   return "$" + s + "$"
 
