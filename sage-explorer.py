@@ -34,10 +34,11 @@ def explore(sage_command):
     invariants = []
     return render_template(
         'template.html',
-        sage_command = sage_output.command,
-        object_data = display_object(sage_output, link=false),
-        object_help = display_help(sage_output),
-        invariants  = plugins.invariants(sage_output),
+        sage_command   = sage_output.command,
+        object_data    = display_object(sage_output, link=false),
+        object_help    = display_help(sage_output),
+        object_methods = display_methods(sage_output),
+        invariants     = plugins.invariants(sage_output),
         )
 
 # @app.route("/DISABLED")
@@ -83,8 +84,13 @@ def explore(sage_command):
 #         help_output = get_help(sage_output)
 
 def display_help(sage_output):
-    return sagenb.misc.support.docstring("x", {"x": sage_output})
+    return sagenb.misc.support.docstring("x", {"x": sage_output.value})
 
+def display_methods(sage_output):
+    return {"style": "method_list"
+            "data" : [ {"data": method,
+                        "url" = sage_output.url+"."+method}
+                       for method in argument_less_methods_of_object(self)]}
 
 def is_argument_less_method(f):
     """
