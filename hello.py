@@ -2,7 +2,7 @@ import inspect
 from flask import Flask
 from flask import Markup
 from flask import render_template
-from xml.sax.saxutils import escape, quoteattr
+from xml.sax.saxutils import escape, quoteattr # TODO: Use Jinja escape
 from sage.structure.parent import Parent
 from sage.structure.element import Element
 

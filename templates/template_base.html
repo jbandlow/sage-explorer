@@ -1,0 +1,46 @@
+{# Basic functions that apply to general objects #}
+
+{% macro display_link(link, text) -%}
+    <a href="{{link}}">{{text}}</a>
+{%- endmacro %}
+
+{% macro display_inline_list_of_links(item_link_pairs) -%}
+    [
+    {%- for item, link in item_link_pairs %}
+        {{ display_link(link, item) }},
+    {%- endfor %}
+    ]
+{%- endmacro %}
+
+{% macro display_ul_list_of_links(item_link_pairs) -%}
+    <ul>
+    {%- for item, link in item_link_pairs %}
+        <li>{{ display_link(link, item) }}
+    {%- endfor %}
+    </ul>
+{%- endmacro %}
+
+{% macro display_table(table) -%}
+    <pre>table</pre>
+{%- endmacro %}
+
+{#  Functions specific to sage objects.  These will
+    need to be moved to individual template files #}
+
+{% macro display_latex(text) -%}
+    $ {{ text }} $
+{%- endmacro %}
+
+{% macro display_sage_element(parent, link_to_parent) -%}
+    An element of {{ display_link(link_to_parent, parent) }}.
+{%- endmacro %}
+
+{% macro display_sage_parent(category, link_to_category) -%}
+    A parent in {{ display_link(link_to_category, category) }}.
+{%- endmacro %}
+
+{% macro display_finite_semigroup(multiplication_table) -%}
+    Multiplication table: {{ display_table(multiplication_table) }}
+{%- endmacro %}
+
+
