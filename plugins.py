@@ -4,6 +4,7 @@ from sage.misc.latex import latex
 from sage.categories.semigroups import Semigroups
 from sage.structure.parent import Parent
 from sage.structure.element import Element
+from reproducible_object import ReproducibleObject
 
 # Duplicated from sage-explorer
 
@@ -59,10 +60,10 @@ def invariants(obj):
     """
     EXAMPLES::
 
-        sage: invariants(1)
+        sage: invariants(ReproducibleObject('1'))
         [{'style': 'invariant_parent',
           'data': {'style': 'latex', 'data': '\\Bold{Z}'}}]
-        sage: invariants(DihedralGroup(2))
+        sage: invariants(ReproducibleObject('DihedralGroup(2)')
         [{'style': 'invariant_category',
           'data': {'style': 'latex', 'data': '\\mathbf{FinitePermutationGroups}'}},
          {'style': 'invariant',
