@@ -39,7 +39,7 @@
 
     {% block help %}
       <h2>Help</h2>
-      {{ object_help }}
+      {{ object_help|safe }}
     {% endblock help %}
   {% endblock body %}
   </body>

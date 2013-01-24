@@ -29,10 +29,12 @@ def explore(sage_command):
     TODO
     """
     sage_output = eval(sage_command)
+    object_data = display_object(sage_output, sage_command)
     #parent = display_parent(sage_output, command)
     #category = display_category(sage_output, command)
     #object_template, object_content = display_object(sage_output, command)
     #methods = display_methods(sage_output, command)
+    object_help = display_help(sage_output)
     invariants = []
     return render_template(
         'template.html',
@@ -59,12 +61,12 @@ def display_object(sage_object):
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
         return {
             "style": "text",
-            "data" : repr(sage_object),
+            "data" : Markup(repr(sage_object)),
             }
     else:
         return {
             "style": "latex",
-            "data" : s,
+            "data" : Markup(s),
             }
 
 
@@ -105,7 +107,7 @@ def display_object(sage_object):
 #         help_output = get_help(sage_output)
 
 def display_help(sage_output):
-    return Markup(sagenb.misc.support.docstring("x", {"x": sage_output}))
+    return sagenb.misc.support.docstring("x", {"x": sage_output})
 
 
 def is_argument_less_method(f):
