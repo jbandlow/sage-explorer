@@ -87,10 +87,10 @@ def display_help(sage_output):
     return sagenb.misc.support.docstring("x", {"x": sage_output.value})
 
 def display_methods(sage_output):
-    return {"style": "method_list"
+    return {"style": "method_list",
             "data" : [ {"data": method,
-                        "url" = sage_output.url+"."+method}
-                       for method in argument_less_methods_of_object(self)]}
+                        "url" : sage_output.url+"."+method}
+                       for method in argument_less_methods_of_object(sage_output)]}
 
 def is_argument_less_method(f):
     """
