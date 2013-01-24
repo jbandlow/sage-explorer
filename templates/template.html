@@ -10,23 +10,23 @@
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
-    { % end block head %}
+    {% endblock head %}
   </head>
   <body>
   {% block body %}
     {% block command %}
       <h2>Command:</h2>
       <pre>{{ sage_command }}</pre>
-    {% end block command %}
+    {% endblock command %}
 
     {% block output %}
     <h2>Output:</h2>
     <center>
       {% set template = object_data['style'] + ".html" %}
-      {% import template as object_displayer %}
-      {{ displayer.display(object_data['content']) }}
+      {% import template as displayer %}
+      {{ displayer.display(object_data['data']) }}
     </center>
-    {% end block output %}
+    {% endblock output %}
 
     {#
     {% block methods %}
@@ -34,14 +34,14 @@
         <h2>Explore more with the following methods:</h2>
         {{ base.display_inline_list_of_links(object_methods_list_of_links)
       {% endif %}
-      {% end block methods %}
+    {% endblock methods %}
     #}
 
-    {% block help %}
+    {#{% block help %}
       {% import 'help.html' as help_displayer %}
       <h2>Help</h2>
       {{ help.content }}
-    {% end block help %}
-  {% end block body %}
+    {% endblock help %} #}
+  {% endblock body %}
   </body>
 </html>
