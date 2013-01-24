@@ -22,7 +22,7 @@
     {% block output %}
     <h2>Output:</h2>
     <center>
-      {% set template = object_data['type'] + ".html" %}
+      {% set template = object_data['style'] + ".html" %}
       {% import template as object_displayer %}
       {{ displayer.display(object_data['content']) }}
     </center>
