@@ -10,6 +10,7 @@ from reproducible_object import ReproducibleObject
 
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\cline")
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\verb")
+sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
 sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
 
 def display_object(sage_object, link=True):
