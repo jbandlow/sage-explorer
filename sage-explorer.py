@@ -5,6 +5,11 @@ from flask import render_template
 import sagenb.misc.support
 import sage.misc.latex
 from sage.misc.latex import latex
+import plugins
+
+sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
+sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\verb")
+sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
 #from sage.structure.parent import Parent
 #from sage.structure.element import Element
 
@@ -30,6 +35,7 @@ def explore(sage_command):
     #category = display_category(sage_output, command)
     #object_template, object_content = display_object(sage_output, command)
     #methods = display_methods(sage_output, command)
+    invariants = []
     return render_template(
         'template.html',
         sage_command = sage_command,
@@ -49,7 +55,7 @@ def display_object(sage_object, command):
     #        "style" = "list",
     #        "data" = map(obj,display_object),
     #        }
-    s = latex(sage_object)
+    s = str(latex(sage_object))
     # This logic is about limitations of mathjax; should this it in the template?
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
         return {
