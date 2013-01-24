@@ -22,18 +22,20 @@
     {% block output %}
     <h2>Output:</h2>
     <center>
-      {% set template = sage_object.template_name + ".html" %}
+      {% set template = object_data['type'] + ".html" %}
       {% import template as object_displayer %}
-      {{ displayer.display(sage_object.content) }}
+      {{ displayer.display(object_data['content']) }}
     </center>
     {% end block output %}
 
+    {#
     {% block methods %}
       {% if object_methods_list_of_links %}
         <h2>Explore more with the following methods:</h2>
         {{ base.display_inline_list_of_links(object_methods_list_of_links)
       {% endif %}
-    {% end block methods %}
+      {% end block methods %}
+    #}
 
     {% block help %}
       {% import 'help.html' as help_displayer %}
