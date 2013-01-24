@@ -1,0 +1,8 @@
+{% macro display(data) -%}
+{% import 'template_base.html' as base %}
+    {% if data['url'] is defined %}
+    {{ data['name'] }}: {{ base.display_link(data['url'], base.display_from_template(data['data'], data['style'])) }}.
+    {% else %}
+    {{ data['name'] }}: {{ base.display_from_template(data['data'], data['style']) }}.
+    {% endif %}
+{%- endmacro %}
