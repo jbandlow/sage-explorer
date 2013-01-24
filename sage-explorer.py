@@ -32,6 +32,8 @@ def explore(sage_command):
     #methods = display_methods(sage_output, command)
     object_help = display_help(sage_output)
     invariants = []
+    #object_methods = display_methods(sage_output)
+    #raise Exception
     return render_template(
         'template.html',
         sage_command   = sage_output.command,
@@ -89,8 +91,8 @@ def display_help(sage_output):
 def display_methods(sage_output):
     return {"style": "method_list",
             "data" : [ {"data": method,
-                        "url" : sage_output.url+"."+method}
-                       for method in argument_less_methods_of_object(sage_output)]}
+                        "url" : sage_output.url()+"."+method}
+                       for method in argument_less_methods_of_object(sage_output.value)]}
 
 def is_argument_less_method(f):
     """

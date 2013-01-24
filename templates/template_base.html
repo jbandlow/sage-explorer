@@ -1,7 +1,7 @@
 {# Basic functions that apply to general objects #}
 
 {% macro display_link(link, text) -%}
-    <a href="{{link}}">{{text}}</a>
+    <a href="{{link|safe}}">{{text|safe}}</a>
 {%- endmacro %}
 
 {% macro display_inline_list_of_links(item_list) -%}
@@ -15,7 +15,7 @@
 {% macro display_list_of_links(item_list) -%}
     <ul>
     {%- for item in item_list %}
-        <li>{{ display_link(item['link'], item['name']) }}
+        <li>{{ display_link(item['link'], item['data']) }}
     {%- endfor %}
     </ul>
 {%- endmacro %}
