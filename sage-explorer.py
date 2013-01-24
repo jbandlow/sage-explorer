@@ -29,14 +29,13 @@ def explore(sage_command):
     #parent = display_parent(sage_output, command)
     #category = display_category(sage_output, command)
     #object_template, object_content = display_object(sage_output, command)
-    object_data = display_object(sage_output, sage_command)
     #methods = display_methods(sage_output, command)
-    help_text = display_help(sage_output)
-
-    return render_template('template.html',
-                           sage_command = sage_command,
-                           object_data = object_data,
-                           help_text=help_text)
+    return render_template(
+        'template.html',
+        sage_command = sage_command,
+        object_data = display_object(sage_output, sage_command),
+        object_help = display_help(sage_output),
+        )
 
 # @app.route("/DISABLED")
 # def front_page():

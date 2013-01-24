@@ -37,11 +37,10 @@
     {% endblock methods %}
     #}
 
-    {#{% block help %}
-      {% import 'help.html' as help_displayer %}
+    {% block help %}
       <h2>Help</h2>
-      {{ help.content }}
-    {% endblock help %} #}
+      {{ object_help }}
+    {% endblock help %}
   {% endblock body %}
   </body>
 </html>
