@@ -7,6 +7,7 @@ from sage.structure.element import Element
 
 app = Flask(__name__)
 
+
 @app.route("/<command>")
 def explore(command):
     """
@@ -14,6 +15,11 @@ def explore(command):
     and optionally object_methods_output (HTML representing methods that can be
     applied to the object).
     """
+    p = Partition([2,1])
+    p.template_name = "foo"
+    return render_template('template.html', component = p)
+
+
     sage_output = eval(command)
     # Here we would need a cube-style selector mechanism
     # Runtime type checking for now.

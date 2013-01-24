@@ -27,8 +27,13 @@
 {#  Functions specific to sage objects.  These will
     need to be moved to individual template files #}
 
-{% macro display_latex(text) -%}
-    $ {{ text }} $
+{% macro display_latex(tex_string) -%}
+    $ {{ tex_string }} $
+{%- endmacro %}
+
+{% macro sage_object_latex_view_template(tex_string) -%}
+    Latex output:
+    <center> {{ display_latex(tex_string) }} $ </center>
 {%- endmacro %}
 
 {% macro display_sage_element(parent, link_to_parent) -%}
