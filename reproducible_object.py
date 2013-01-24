@@ -3,13 +3,14 @@ from sage.all import *
 
 class ReproducibleObject:
     """
-    A wrapper around a Sage object
+    A wrapper around a Sage object that knows how to reconstruct the object
     """
 
     def __init__(self, command, value = None):
         self.command = command
         if value is None:
-            self.value = eval(command)
+           value = eval(command)
+        self.value = value
 
     def url(self):
         """
@@ -34,5 +35,19 @@ class ReproducibleObject:
             sage: G.category().command
             'DihedralGroup(4).category()'
             sage: G.category().value
+            Category of finite permutation groups
         """
         return ConstantFunction(ReproducibleObject("%s.%s()"%(self.command, key), getattr(self.value, key)()))
+
+    def __getitem__(self, key):
+        """
+
+        EXAMPLES::
+
+            sage: G = ReproducibleObject("Permutations(3)")
+            sage: G[1].command
+            'Permutations(3)[1]'
+            sage: G[1].value
+            [1, 3, 2]
+        """
+        return ReproducibleObject("%s[%s]"%(self.command, key), self.value[key])
