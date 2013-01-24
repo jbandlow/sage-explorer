@@ -23,16 +23,15 @@
     <h2>Output:</h2>
     <center>
       {% block object %}
+        <p>
         {% set template = object_data['style'] + ".html" %}
         {% import template as displayer %}
         {{ displayer.display(object_data['data']) }}
+        </p>
       {% endblock object %}
-      <br><br>
       {% block invariants %}
-        {% for invariant in invariants %}
-          {% set template = invariant['style'] + ".html" %}
-          {% import template as displayer %}
-          <p>{{ displayer.display(invariant['data']) }}</p>
+      {% for invariant in invariants %}
+          <p>{{ base.display_from_template(invariant['data'], invariant['style']) }}</p>
         {% endfor %}
       {% endblock invariants %}
     </center>
