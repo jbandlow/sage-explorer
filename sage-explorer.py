@@ -7,25 +7,65 @@ from sage.structure.element import Element
 
 app = Flask(__name__)
 
+EXAMPLES = [
+    "Partition([3,3,2,1])",
+    "Permutations(5)",
+    "DihedralGroup(6)",
+    "EllipticCurve('37b2')",
+    "Crystals().example()",
+    "HopfAlgebrasWithBasis(QQ).example()",
+    ]
 
 @app.route("/<command>")
 def explore(command):
     """
-    This is responsible for defining object_output (HTML representing the object)
-    and optionally object_methods_output (HTML representing methods that can be
-    applied to the object).
+    TODO
     """
-    p = Partition([2,1])
-    p.template_name = "foo"
-    return render_template('template.html', component = p)
-
-
     sage_output = eval(command)
-    # Here we would need a cube-style selector mechanism
-    # Runtime type checking for now.
+    sage_command = command
+    parent = display_parent(sage_output, command)
+    category = display_category(sage_output, command)
+    object_template, object_content = display_object(sage_object, command)
+    methods = display_methods(sage_output, command)
+    help_text = display_help(sage_object)
+
+    return render_template('template.html',
+        sage_command = sage_command,
+        parent = parent,
+        category = category,
+        object_template=object_template,
+        object_content=object_content,
+        help_text=help_text)
+
+@app.route("/")
+def front_page():
+    return render_template('index.html',
+        objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>" +
+          "<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>" for command in EXAMPLES)))
+
+def display_parent(sage_object, command):
+    output = {}
+    if isinstance(sage_object, Element):
+        p = self.Parent()
+        output = {'name': latex_if_possible(p),
+            'link': BASE_URL + '/' + command + '.Parent()'}
+    return output
+
+def display_category(sage_object, command):
+    output = {}
+    if isinstance(sage_object, Parent):
+        c = self.Category()
+        output = {'name': latex_if_possible(c),
+            'link': BASE_URL + '/' + command + '.Category()'}
+    return output
+
+def display_template(sage_object):
     if sage_output in FiniteSemigroups():
-        object_output = view_finite_semigroup(sage_output, command)
+        sage_output.template = 'finite_semigroups'
+        sage_output.content = sage_output.caley_graph()
     elif isinstance(sage_output, Parent):
+        sage_output.template = 'Parent'
+        sage_output.content = sage_output.caley_graph()
         object_output = view_parent(sage_output, command)
     elif isinstance(sage_output, Element):
         object_output = view_element(sage_output, command)
@@ -36,27 +76,8 @@ def explore(command):
         object_output = Markup(object_output)
         object_methods_output = Markup(view_sage_object_methods(sage_output, command))
         help_output = get_help(sage_output)
-        return render_template('template.html', sage_command=command,
-                               object_output=object_output, object_methods_output=object_methods_output,
-                               help_output=help_output)
 
-examples = [
-    "Partition([3,3,2,1])",
-    "Permutations(5)",
-    "DihedralGroup(6)",
-    "EllipticCurve('37b2')",
-    "Crystals().example()",
-    "HopfAlgebrasWithBasis(QQ).example()",
-    ]
-
-@app.route("/")
-def front_page():
-    return render_template('index.html',
-                           objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>"
-                                                           +"<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>"
-                                                           for command in examples)))
-
-def get_help(sage_output):
+def display_help(sage_output):
     return Markup(sagenb.misc.support.docstring("x", {"x": sage_output}))
 
 

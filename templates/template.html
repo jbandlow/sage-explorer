@@ -2,6 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
   <head>
+    {% block head %}
     <title>Sage Explorer</title>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
@@ -9,19 +10,36 @@
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
+    { % end block head %}
   </head>
   <body>
-    
+  {% block body %}
+    {% block command %}
+      <h2>Command:</h2>
+      <pre>{{ sage_command }}</pre>
+    {% end block command %}
 
-    <!--<h2>Command:</h2>
-    <pre>{{ sage_command }}</pre>
+    {% block output %}
     <h2>Output:</h2>
-    <center>{{ object_output }}</center>
-    {% if object_methods_output %}
-      <h2>Explore more with the following methods:</h2>
-      {{ object_methods_output }}
-    {% endif %}
-    <h2>Help</h2>
-    {{ help_output }}!-->
+    <center>
+      {% set template = sage_object.template_name + ".html" %}
+      {% import template as object_displayer %}
+      {{ displayer.display(sage_object.content) }}
+    </center>
+    {% end block output %}
+
+    {% block methods %}
+      {% if object_methods_list_of_links %}
+        <h2>Explore more with the following methods:</h2>
+        {{ base.display_inline_list_of_links(object_methods_list_of_links)
+      {% endif %}
+    {% end block methods %}
+
+    {% block help %}
+      {% import 'help.html' as help_displayer %}
+      <h2>Help</h2>
+      {{ help.content }}
+    {% end block help %}
+  {% end block body %}
   </body>
 </html>
