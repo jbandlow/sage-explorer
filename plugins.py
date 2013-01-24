@@ -107,10 +107,10 @@ class Invariant(VisualComponentPlugin):
         self._invariant = invariant
         if isinstance(predicate, Category):
             predicate = predicate.__contains__
-        self.predicate = predicate
+        self._predicate = predicate
 
     def predicate(self, obj):
-        return obj.value in self._category
+        return self._predicate(obj.value)
 
     def render(self, obj):
         return {
