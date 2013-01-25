@@ -31,7 +31,7 @@ def display_object(sage_object, link=True):
     if isinstance(sage_object.value, (list, tuple)):
         return {
             "style": "list",
-            "data" : [display_object(sage_object[i], link = link) for i in range(len(sage_object.value))]
+            "data" : [display_object(sage_object[i], link = True) for i in range(len(sage_object.value))]
             }
     s = str(latex(sage_object.value))
     # This logic is about limitations of mathjax; should this it in the template?
