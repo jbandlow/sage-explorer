@@ -1,81 +1,85 @@
 * [7/19] Features
-- [X] Front page, with pointers to a couple interesting objects
-- [X] Handle Cython methods
-- [X] Link to the help page
-      sagenb.misc.support.docstring("x", {"x":Partition([2])})
+- [ ] Sage Explorer from the Sage notebook / interpreter
+
+    It would also be natural to have the explorer accessible from
+    within Sage by using:
+
+        sage: explore(my_object)
+
+    It could, for example, open a new web page in the notebook, or
+    fire up a standalone web server (or heavy application) if Sage is
+    run from the terminal.
+- [ ] Sage Explorer embedded in a static web page
+
+    It would be nice as well to be able to embed the explorer into a
+    static web page, using for example the single cell server for
+    calculations. Think putting on your web page your favorite math
+    object(s):
+
+	(<singlecell>explore(my_object)</singlecell>)
+
+    And letting people explore from them.
+
 - [ ] Form for parameter input
 - [ ] A form to input a sequence of commands to create non trivial objects
-- [X] lists
-- [X] methods on a list should be displayed, like for other objects
-      DONE, but not that useful currently: the only method is __len__
-      which gets hidden ...
-- [X] call latex on the elements of a list
-- [X] specify the parent of an element, the category of a parent
 - [ ] call the preparser on the command?
-- [ ] Icon to bring up a little interpreter as in the stack traces
+- [ ] Icon to bring up a little interpreter as in the flask stack traces
 - [ ] A way to input polynomials, variables, ...
 - [ ] Multi-expression commands
 - [ ] Educational feature: at any point, the user should be able (and encouraged) to reproduce its action within Sage
 - [ ] Docstring tooltip for each method in the the list of methods
-- [ ] Plugin mechanism for visual components
-      if object o satisfies property x, add visual component y(o)
-- [-] visual components plugins
-      - [X] latex visualization, if available
-      - [X] text visualization
-      - [ ] categories: list of implementations
-      - [ ] categories: list of constructions
-      - [ ] categories: list of axioms
-      - [ ] view component for graphs
-      - [ ] show / plot / ...
-      - [X] cayley_table component for a semigroup
-      - [ ] factorization: if x lives in a UFD
-- [ ] Every visual component should be separated into model + view (html template)
-- [ ] 
+- [ ] Add support for methods with arguments to ReproducibleObject
+- [-] Property viewers
+      - [ ] category: list of implementations
+            Requires indexing of all the implementations of a given category
+            ==> Toward reverse links in the Sage-explorer using database searches
+      - [ ] category: list of constructions
+      - [ ] category: list of axioms
+      - [ ] graph: plot
+      - [ ] any object: show / plot / ...
+      - [ ] any object: link to the corresponding lmfdb page
+            This requires adding new information to Sage. A method _lmfdb_id_?
+      - [ ] any object: link to wikipedia
+      - [ ] factorization: if x lives in a UFD, show its factored form?
+      - [X] latex representation, if available
+      - [X] text representation
+      - [X] finite semigroup: multiplication_table
+      - [X] parent of an element, category of a parent, an_element of a category
+      - [X] Plugin mechanism for property viewers
+            if object o satisfies predicate x, activate the property viewer y(o)
+      - [ ] GUI for configuring the activated property viewers
+      - [ ] Lazy calculation of the activated properties viewers, using AJAX
+      - [ ] Auto-learning which properties should be activated
+            depending on the history from the user and other users if
+            a user repeatedly requests a given property for a given
+            type of object, then displaying this property should be
+            activated by default.
+- [X] Separate visual component into model + view (html template)
+- [X] Front page, with pointers to a couple interesting objects
+- [X] Handle Cython methods
+- [X] Link to the help page
+      sagenb.misc.support.docstring("x", {"x":Partition([2])})
+- [X] lists
+- [X] methods on a list should be displayed like for other objects.
+      DONE, but not that useful currently: the only method is __len__
+      which gets hidden ...
+- [X] Call latex on the elements of a list
+- [X] Configure a prototype of page for partitions
+- [X] Configure a prototype of page for elliptic curves
+* TODO [#A] SECURITY
+
+The most urgent task is to use a preexisting platform for running the
+calculations, and in particular handling security. This could
+typically be the single cell server (or another instance thereof)
+with the explorer code loaded in.
 
 * [/] BUGS
 - [ ] Handle quoting properly
 - [ ] Handle exceptions properly
-- [ ] Handle objects such that mathjax can't display properly the latex representation
-- [ ] Define \Bold, ... in mathjax
+- [ ] Define the macros \Bold, ... in mathjax
 - [ ] Handle nicely objects with no methods
-- [ ] Distinguish between text output (which should be fixed-width) and two-d output (which should be <pre>)
-- [ ] SECURITY!!!
+- [X] Distinguish between text output (which should be fixed-width) and two-d output (which should be <pre>)
+- [X] Handle objects such that mathjax can't display properly the latex representation
 
-* TODO Document/doctest the prototype so that someone could possibly take on from it
 * TODO Lookup if there is not already a Python explorer somewhere
-
-class CayleyTablePlugin(VisualComponentPlugin):
-    def predicate(self, sage_object):
-        return sage_object in FiniteSemigroups() and sage_object.cardinality() < 10
-
-    # With an intermediate abstraction layer
-    def view(self, sage_object):
-        return table_view(sage_object.multiplication_table())
-
-    # render html directly using a library of type-based templates
-    def view(self, sage_object):
-        return render_template('table.html',
-                               [sage_object.multiplication_table()])
-
-    # render html directly using a library of plugin-based templates
-    def view(self, sage_object):
-        return render_template('CayleyTablePlugin.html',
-                               [sage_object.multiplication_table()])
-
-class table_view:
-
-    def __init__(self, list):
-        self.list()
-
-    def html():
-        render_template(...)
-
-register_visual_component_plugin(CayleyTablePlugin())
-
-def hello(sage_object):
-
-    visual_components =
-    [ plugin.visual_component(sage_object) if plugin.predicate(sage_object) ]
-
-    return ''.join(compo.html() for compo in visual_components)
-
+* TODO Beautify the sage-explorer using CSS
