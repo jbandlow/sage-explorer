@@ -31,6 +31,7 @@
         </p>
       {% endblock object %}
       {% block invariants %}
+      Invariants are: {{ invariants }}
       {% for invariant in invariants %}
         <p>
         {% if invariant['name'] is defined %}
