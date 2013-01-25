@@ -1,7 +1,7 @@
 {# Basic functions that apply to general objects #}
 
 {% macro display_link(link, text) -%}
-    <a href="{{link|safe}}">{{text|safe}}</a>
+    <a href="{{link|safe}}" style='text-decoration: none'>{{text|safe}}</a>
 {%- endmacro %}
 
 {% macro display_inline_list_of_links(item_list) -%}
@@ -26,7 +26,7 @@
     {{ displayer.display(data) }}
     {%- endmacro %}
 
-    {% macro display_data_with_style_and_possible_url(data, style, url) %}
+{% macro display_data_with_style_and_possible_url(data, style, url) %}
     {% if url is defined %}
     {{ display_link(url, display_from_template(data, style))}}
     {% else %}

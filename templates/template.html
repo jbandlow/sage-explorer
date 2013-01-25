@@ -32,13 +32,8 @@
       {% endblock object %}
       {% block invariants %}
       {% for invariant in invariants %}
-        <p>
-        {% if invariant['name'] is defined %}
-        {{ invariant['name'] }}:
-        {% endif %}
-         {{ base.display_from_template(invariant['data'], invariant['style']) }}</p>
-        {% endfor %}
-      {% endblock invariants %}
+      {% if invariant['name'] is defined %} {{ invariant['name'] }}: {% endif %} {{ base.display_from_template(invariant['data'], invariant['style']) }}
+      {% endfor %} {% endblock invariants %}
     </center>
     </div>
     {% endblock output %}
