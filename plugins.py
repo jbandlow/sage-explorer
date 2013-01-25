@@ -4,7 +4,7 @@ from sage.misc.latex import latex
 from sage.categories.category import Category
 from sage.structure.parent import Parent
 from sage.structure.element import Element
-
+from reproducible_object import ReproducibleObject
 # Duplicated from sage-explorer
 
 sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\cline")
@@ -13,11 +13,26 @@ sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
 sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
 
 def display_object(sage_object, link=True):
-    #if isinstance(obj, (list, tuple)):
-    #    return {
-    #        "style" = "list",
-    #        "data" = map(obj,display_object),
-    #        }
+    """
+    EXAMPLES::
+
+        sage: from plugins import ReproducibleObject
+        sage: display_object(ReproducibleObject("1"), link=True)
+        {'url': 'http:/1', 'style': 'latex', 'data': '1'}
+        sage: display_object(ReproducibleObject("1"), link=False)
+        {'style': 'latex', 'data': '1'}
+        sage: display_object(ReproducibleObject("Partition([1])"))
+        {'url': 'http:/Partition([1])', 'style': 'text', 'data': '[1]'}
+        sage: display_object(ReproducibleObject("[1,2,3]"))
+        {'style': 'list', 'data': [{'url': 'http:/[1,2,3][0]', 'style': 'latex', 'data': '1'},
+                                   {'url': 'http:/[1,2,3][1]', 'style': 'latex', 'data': '2'},
+                                   {'url': 'http:/[1,2,3][2]', 'style': 'latex', 'data': '3'}]}
+    """
+    if isinstance(sage_object.value, (list, tuple)):
+        return {
+            "style": "list",
+            "data" : [display_object(sage_object[i], link = link) for i in range(len(sage_object.value))]
+            }
     s = str(latex(sage_object.value))
     # This logic is about limitations of mathjax; should this it in the template?
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
