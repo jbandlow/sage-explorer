@@ -1,4 +1,4 @@
-* [7/18] Features
+* [7/19] Features
 - [X] Front page, with pointers to a couple interesting objects
 - [X] Handle Cython methods
 - [X] Link to the help page
@@ -19,17 +19,18 @@
 - [ ] Docstring tooltip for each method in the the list of methods
 - [ ] Plugin mechanism for visual components
       if object o satisfies property x, add visual component y(o)
-- [ ] visual components plugins
-      - [ ] latex visualization, if available
-      - [ ] text visualization
+- [-] visual components plugins
+      - [X] latex visualization, if available
+      - [X] text visualization
       - [ ] categories: list of implementations
       - [ ] categories: list of constructions
       - [ ] categories: list of axioms
       - [ ] view component for graphs
       - [ ] show / plot / ...
-      - [ ] cayley_table component for a semigroup
-      - [ ]
+      - [X] cayley_table component for a semigroup
+      - [ ] factorization: if x lives in a UFD
 - [ ] Every visual component should be separated into model + view (html template)
+- [ ] 
 
 * [/] BUGS
 - [ ] Handle quoting properly
