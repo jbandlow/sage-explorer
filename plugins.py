@@ -131,7 +131,7 @@ class Invariant(VisualComponentPlugin):
         return {
             "style": "invariant",
             "name" : self._invariant,
-            "data" : display_object(obj.multiplication_table()),
+            "data" : display_object(getattr(obj, self._invariant)()),
             }
 
 from sage.categories.finite_enumerated_sets import FiniteEnumeratedSets
@@ -139,3 +139,4 @@ from sage.categories.finite_semigroups import FiniteSemigroups
 
 Invariant("multiplication_table", lambda x: x in FiniteSemigroups() and x.cardinality() < 10);
 Invariant("cardinality", FiniteEnumeratedSets());
+Invariant("torsion_points", lambda x: isinstance(x, sage.schemes.elliptic_curves.ell_rational_field.EllipticCurve_rational_field));
