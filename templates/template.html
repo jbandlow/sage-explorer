@@ -13,8 +13,8 @@
     {% endblock head %}
   </head>
   <body>
-  {% block body %}
-  {% block command %}
+    {% block body %}
+    {% block command %}
       <div class='command'>
       <h2>Command:</h2>
       <pre>{{ sage_command }}</pre>
@@ -26,9 +26,7 @@
     <h2>Output:</h2>
     <center>
       {% block object %}
-      <p>
-        {{ base.display_from_template(object_data['data'], object_data['style']) }}
-        </p>
+      <p> {{ base.display_from_template(object_data['data'], object_data['style']) }} </p>
       {% endblock object %}
       {% block invariants %}
       {% for invariant in invariants %}
