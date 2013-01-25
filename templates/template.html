@@ -14,12 +14,15 @@
   </head>
   <body>
   {% block body %}
-    {% block command %}
+  {% block command %}
+      <div class='command'>
       <h2>Command:</h2>
       <pre>{{ sage_command }}</pre>
+      </div>
     {% endblock command %}
 
     {% block output %}
+    <div class='output'>
     <h2>Output:</h2>
     <center>
       {% block object %}
@@ -37,18 +40,23 @@
         {% endfor %}
       {% endblock invariants %}
     </center>
+    </div>
     {% endblock output %}
 
     {% block methods %}
+      <div class='methods'>
       {% if object_methods %}
       <h2>Methods:</h2>
         {{ base.display_list_of_links(object_methods['data']) }}
-      {% endif %}
+        {% endif %}
+      </div>
     {% endblock methods %}
 
     {% block help %}
+      <div class='help'>
       <h2>Help</h2>
       {{ object_help|safe }}
+    </div>
     {% endblock help %}
   {% endblock body %}
   </body>

@@ -24,4 +24,12 @@
     {% set template_file = template + ".html" %}
     {% import template_file as displayer %}
     {{ displayer.display(data) }}
-{%- endmacro %}
+    {%- endmacro %}
+
+{% macro display_data_with_style_and_possible_url(data, style, url) %}
+    {% if data['url'] is defined %}
+    {{ display_link(data['url'], display_from_template(data['data'], data['style'])) }}
+    {% else %}
+    {{ display_from_template(data['data'], data['style']) }}
+    {% endif %}
+    {%- endmacro %}
