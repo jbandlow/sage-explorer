@@ -38,7 +38,7 @@ def display_object(sage_object, link=True):
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
         s = repr(sage_object.value)
         result = {
-            "style": "2Dtext" if "\n" in s else text,
+            "style": "2Dtext" if "\n" in s else "text",
             "data" : s,
             }
     else:
