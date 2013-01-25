@@ -70,9 +70,9 @@ PropertyDisplayer(EllipticCurve_number_field, "\Delta", code = lambda E: E.discr
 #PropertyDisplayer(EllipticCurve_number_field, "Modular Degree", section = "PropertyDisplayers")
 
 ##############################################################################
-# PropertyDisplayers for partitions
-
-from sage.combinat.partition import Partition
-
-PropertyDisplayer(Partition, "Conjugate")
-PropertyDisplayer(Partition, "Hook lengths")
+# PropertyDisplayers for partitions: Reenable once Partition as a type is in sage (and not just combinat).
+#
+# from sage.combinat.partition import Partition
+#
+# PropertyDisplayer(Partition, "Conjugate")
+# PropertyDisplayer(Partition, "Hook lengths")

@@ -20,6 +20,7 @@
 
     And letting people explore from them.
 
+- [ ] Move the basic url to "/sage/" from "/", to make room for other namespaces
 - [ ] Form for parameter input
 - [ ] A form to input a sequence of commands to create non trivial objects
 - [ ] call the preparser on the command?
