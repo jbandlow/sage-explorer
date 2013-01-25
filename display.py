@@ -104,14 +104,14 @@ active_property_displayers = []
 
 class PropertyDisplayer:
 
-    def __init__(self, predicate, invariant, code=None, section=None):
+    def __init__(self, predicate, property, code=None, section=None):
         """
 
         EXAMPLES::
 
         """
         active_property_displayers.append(self)
-        self._invariant = invariant
+        self._property = property
         if isinstance(predicate, Category):
             predicate = predicate.__contains__
         elif isinstance(predicate, type):
@@ -123,7 +123,7 @@ class PropertyDisplayer:
             else:
                 self.result=code
         else:
-            self._method = invariant.lower().replace(" ", "_")
+            self._method = property.lower().replace(" ", "_")
 
     def predicate(self, obj):
         """
@@ -147,8 +147,8 @@ class PropertyDisplayer:
             sage: TODO # todo: not implemented
         """
         return {
-            "style": "invariant",
-            "name" : self._invariant,
+            "style": "property",
+            "name" : self._property,
             "data" : display_object(self.result(obj)),
             }
 
@@ -157,18 +157,17 @@ def display_properties(obj):
     EXAMPLES::
 
         sage: property_displayers(ReproducibleObject('1'))
-        [{'style': 'invariant_parent',
+        [{'style': 'property_parent',
           'data': {'style': 'latex', 'data': '\\Bold{Z}'}}]
         sage: property_displayers(ReproducibleObject('DihedralGroup(2)')
-        [{'style': 'invariant_category',
+        [{'style': 'property_category',
           'data': {'style': 'latex', 'data': '\\mathbf{FinitePermutationGroups}'}},
-         {'style': 'invariant',
+         {'style': 'property',
           'data': {'style': 'latex',
                    'data': '{\\setlength{\\arraycolsep}{2\\ex}\n\\begin{array}{r|*{4}{r}}\n\\multicolumn{1}{c|}{\\ast}&a&b&c&d\\\\\\hline\n{}a&a&b&c&d\\\\\n{}b&b&a&d&c\\\\\n{}c&c&d&a&b\\\\\n{}d&d&c&b&a\\\\\n\\end{array}}'},
                    'name': 'multiplication_table'}
         ]
     """
-    return [plugin.display(obj)
-            for plugin in active_property_displayers if plugin.predicate(obj)]
-
-
+    return [property_displayer.display(obj)
+            for property_displayer in active_property_displayers
+            if property_displayer.predicate(obj)]

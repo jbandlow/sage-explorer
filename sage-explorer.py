@@ -19,7 +19,7 @@ if not "Permutations" in globals() and __name__ == "__main__":
         """
         sage_output = ReproducibleObject(sage_command)
         return render_template(
-            'template.html',
+            'explore.html',
             sage_command      = sage_output.command,
             object_data       = display_object(sage_output, link=False),
             object_help       = display_help(sage_output),
@@ -28,7 +28,7 @@ if not "Permutations" in globals() and __name__ == "__main__":
             )
 
     @app.route("/")
-    def front_page():
+    def index():
         example_data = []
         for command in config.EXAMPLES:
             data = display_object(ReproducibleObject(command))

@@ -12,11 +12,12 @@ depending on the semantic of the object.
 How to run it
 -------------
 
-From the sage-explorer directory, run:
+You need sage installed (http://sagemath.org). Then, from the
+sage-explorer directory, run:
 
     > sage -python sage-explorer
 
-and connect to the URL it mentions (typically http://127.0.0.1:5000/)
+and connect to the URL that is mentioned (typically http://127.0.0.1:5000/)
 
 WARNING: AT THIS POINT NO STEP HAS BEEN TAKEN TOWARD SECURITY
 

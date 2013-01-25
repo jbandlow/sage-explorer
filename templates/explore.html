@@ -29,12 +29,13 @@
       <p> {{ base.display_from_template(object_data['data'], object_data['style']) }} </p>
       {% endblock object %}
     </center>
-    {% block invariants %}
+    {% block properties %}
     <h2>Properties:</h2>
       <center>
-      {% for invariant in invariants %}
-      <p> {% if invariant['name'] is defined %} {{ invariant['name'] }}: {% endif %} {{ base.display_from_template(invariant['data'], invariant['style']) }} </p>
-      {% endfor %} {% endblock invariants %}
+      {% for property in object_properties %}
+      <p> {% if property['name'] is defined %}{{ property['name'] }}:{% endif %}{{ base.display_data_with_style_and_possible_url(property['data']['data'], property['data']['style'], property['data']['url']) }} </p>
+      {% endfor %}
+    {% endblock properties %}
     </center>
     </div>
     {% endblock output %}
