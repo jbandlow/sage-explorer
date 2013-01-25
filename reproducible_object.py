@@ -1,4 +1,5 @@
 from xml.sax.saxutils import quoteattr
+from sage.misc.constant_function import ConstantFunction
 from sage.all import *
 
 class ReproducibleObject:
