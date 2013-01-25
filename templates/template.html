@@ -28,9 +28,12 @@
       {% block object %}
       <p> {{ base.display_from_template(object_data['data'], object_data['style']) }} </p>
       {% endblock object %}
-      {% block invariants %}
+    </center>
+    {% block invariants %}
+    <h2>Properties:</h2>
+      <center>
       {% for invariant in invariants %}
-      {% if invariant['name'] is defined %} {{ invariant['name'] }}: {% endif %} {{ base.display_from_template(invariant['data'], invariant['style']) }}
+      <p> {% if invariant['name'] is defined %} {{ invariant['name'] }}: {% endif %} {{ base.display_from_template(invariant['data'], invariant['style']) }} </p>
       {% endfor %} {% endblock invariants %}
     </center>
     </div>

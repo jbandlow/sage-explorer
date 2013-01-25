@@ -1,8 +1,4 @@
 {% macro display(data) -%}
     {% import 'template_base.html' as base %}
-    {% if data['url'] is defined %}
-    A parent in the category of {{ base.display_link(data['url'], base.display_from_template(data['data'], data['style'])) }}.
-    {% else %}
-    A parent in the category of {{ base.display_from_template(data['data'], data['style']) }}.
-    {% endif %}
+This is a parent in the category of {{ base.display_data_with_style_and_possible_url(data['data'], data['style'], data['url']) }}.
 {%- endmacro %}
