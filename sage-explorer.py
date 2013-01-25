@@ -1,5 +1,6 @@
 import inspect
 from flask import Flask
+from flask import Markup
 from flask import render_template
 import sagenb.misc.support
 import sage.misc.sageinspect
@@ -24,12 +25,6 @@ def explore(sage_command):
     TODO
     """
     sage_output = ReproducibleObject(sage_command)
-    #parent = display_parent(sage_output, command)
-    #category = display_category(sage_output, command)
-    #object_template, object_content = display_object(sage_output, command)
-    #methods = display_methods(sage_output, command)
-    #object_methods = display_methods(sage_output)
-    #raise Exception
     return render_template(
         'template.html',
         sage_command   = sage_output.command,
@@ -39,21 +34,26 @@ def explore(sage_command):
         invariants     = plugins.invariants(sage_output),
         )
 
-# @app.route("/DISABLED")
-# def front_page():
-#     return render_template('index.html',
-#         objects_output = Markup(''.join('<tr><td>'+escape(command)+"</td>" +
-#           "<td>"+view_sage_object_with_link(eval(command), command)+"</td></tr>" for command in EXAMPLES)))
+@app.route("/")
+def front_page():
+    example_data = []
+    for command in EXAMPLES:
+        data = display_object(ReproducibleObject(command))
+        data['command'] = command
+        example_data.append(data)
+    return render_template('index.html', example_data=example_data)
 
 
 def display_help(sage_output):
     return sagenb.misc.support.docstring("x", {"x": sage_output.value})
+
 
 def display_methods(sage_output):
     return {"style": "method_list",
             "data" : [ {"data": method,
                         "url" : sage_output.url()+"."+method+"()"}
                        for method in argument_less_methods_of_object(sage_output.value)]}
+
 
 def is_argument_less_method(f):
     """
@@ -73,6 +73,7 @@ def is_argument_less_method(f):
         l -= len(arg_spec.defaults)
         return l == 1
 
+
 def argument_less_methods_of_object(x):
     """
     Returns the list of the names of the methods of ``x`` that take no argument, excluding _methods
@@ -85,6 +86,7 @@ def argument_less_methods_of_object(x):
     return [ key
              for (key, f) in inspect.getmembers(x, inspect.isroutine)
              if not key[0] == "_" and is_argument_less_method(f) ]
+
 
 # Stupid test that we are not running within Sage
 if not "Permutations" in globals() and __name__ == "__main__":

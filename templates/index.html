@@ -1,23 +1,31 @@
+{% import 'template_base.html' as base %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
   <head>
+    {# TODO: Factor out the header #}
     <title>Sage Explorer</title>
     <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]},
+      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+      SVG: { linebreaks: { automatic: true, width: "container" } } }
+      );
     </script>
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
   </head>
   <body>
-    <h1>Sage Explorer</h1>
-
-    (Version demoed at the AIM/ICMS workshop Online databases: from L-functions to combinatorics)
-
-    Start exploring from one of those:
+    {% block body %}
+    <h1>Sage Explorer</h1> Type a command in the URL, or start exploring from one of these:
+    <div class=mytable>
     <table border=1>
-      <td>Sage command</td><td>Objects</td>
-    {{ objects_output }}
+      <td>Sage command</td><td>Object</td>
+      {% for item in example_data %}
+      <tr><td><pre>{{ base.display_link(item['url'], item['command']) }}</pre></td>
+      <td>{{ base.display_from_template(item['data'], item['style']) }}</td></tr>
+      {% endfor %}
     </table>
+  </div>
+    {% endblock body %}
   </body>
 </html>

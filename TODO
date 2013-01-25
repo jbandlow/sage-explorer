@@ -28,7 +28,7 @@
       - [ ] view component for graphs
       - [ ] show / plot / ...
       - [ ] cayley_table component for a semigroup
-      - [ ] 
+      - [ ]
 - [ ] Every visual component should be separated into model + view (html template)
 
 * [/] BUGS
@@ -37,6 +37,7 @@
 - [ ] Handle objects such that mathjax can't display properly the latex representation
 - [ ] Define \Bold, ... in mathjax
 - [ ] Handle nicely objects with no methods
+- [ ] Distinguish between text output (which should be fixed-width) and two-d output (which should be <pre>)
 - [ ] SECURITY!!!
 
 * TODO Document/doctest the prototype so that someone could possibly take on from it
