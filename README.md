@@ -1,4 +1,4 @@
-sage-explorer: a tool for exploring Sage objects and connections between them
+Sage Explorer: a tool for exploring Sage objects and connections between them
 
 It displays a Sage object, some relevant information about this
 object, and links to related objects (those that can be obtained using
@@ -13,9 +13,9 @@ How to run it
 -------------
 
 You need sage installed (http://sagemath.org). Then, from the
-sage-explorer directory, run:
+Sage Explorer directory, run:
 
-    > sage -python sage-explorer
+    > sage -python sage_explorer
 
 and connect to the URL that is mentioned (typically http://127.0.0.1:5000/)
 
@@ -40,7 +40,7 @@ available in Sage was useful and sufficient for that purpose.
 Implementation
 --------------
 
-sage-explorer is currently implemented as a standalone web-site. Some
+Sage Explorer is currently implemented as a standalone web-site. Some
 care was taken to separate the view (implemented using jinja
 templates) from the model. It could therefore, in principle, work
 generically as a web or heavy-weight GUI application (using QT or so).

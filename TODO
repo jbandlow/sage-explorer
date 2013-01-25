@@ -82,4 +82,4 @@ with the explorer code loaded in.
 - [X] Handle objects such that mathjax can't display properly the latex representation
 
 * TODO Lookup if there is not already a Python explorer somewhere
-* TODO Beautify the sage-explorer using CSS
+* TODO Beautify the Sage Explorer using CSS
