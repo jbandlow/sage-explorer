@@ -36,9 +36,10 @@ def display_object(sage_object, link=True):
     s = str(latex(sage_object.value))
     # This logic is about limitations of mathjax; should this it in the template?
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
+        s = repr(sage_object.value)
         result = {
-            "style": "text",
-            "data" : repr(sage_object.value),
+            "style": "2Dtext" if "\n" in s else text,
+            "data" : s,
             }
     else:
         result = {
