@@ -1,0 +1,7 @@
+{% macro display(item_list) -%}
+{% import 'template_base.html as base %}
+[ {%- for item in item_list %}
+{{ display_data_with_style_and_possible_url(item['data'], item['style'], item['url']) }}
+{% endfor %}
+]
+{%- endmacro %}
