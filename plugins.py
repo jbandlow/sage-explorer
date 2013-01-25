@@ -13,11 +13,11 @@ sage.misc.latex.latex.add_to_mathjax_avoid_list(r"\multicolumn")
 sage.misc.latex.latex.add_to_mathjax_avoid_list("None")
 
 def display_object(sage_object, link=True):
-    #if isinstance(obj, (list, tuple)):
-    #    return {
-    #        "style" = "list",
-    #        "data" = map(obj,display_object),
-    #        }
+    if isinstance(obj, (list, tuple)):
+        return {
+            "style" = "list",
+            "data" = [display_object(x, link = link) for x in obj]
+            }
     s = str(latex(sage_object.value))
     # This logic is about limitations of mathjax; should this it in the template?
     if any(forbidden in s for forbidden in sage.misc.latex.latex.mathjax_avoid_list()):
