@@ -1,0 +1,29 @@
+{# Basic functions for displaying data #}
+
+{% macro display_link(link, text) -%}
+    <a href="{{link|safe}}" style='text-decoration: none'>{{text|safe}}</a>
+{%- endmacro %}
+
+{# This is a harmless hack; if you want to implement a new style,
+just add a file with the appropriate name and a display method. #}
+{% macro display_data_with_style(data, style) %}
+    {% set style_file = "macros/" + style + ".html" %}
+    {% import style_file as displayer %}
+    {{ displayer.display(data) }}
+    {%- endmacro %}
+
+{% macro display_data_with_style_and_possible_url(data, style, url) %}
+    {% if url is defined %}
+    {{ display_link(url, display_data_with_style(data, style))}}
+    {% else %}
+    {{ display_data_with_style(data, style)}}
+    {% endif %}
+    {%- endmacro %}
+
+{% macro display_list_of_methods(method_list) -%}
+    <ul>
+    {%- for method in method_list %}
+        <li>{{ display_link(method['url'], method['data']) }}
+    {%- endfor %}
+    </ul>
+{%- endmacro %}

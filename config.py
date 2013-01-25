@@ -17,7 +17,18 @@ EXAMPLES = [
     ]
 
 ##############################################################################
-# PropertyDisplayers for Elliptic curves
+# PropertyDisplayers.  The arguments are:
+#
+#    a predicate: Either a function which returns whether the property should be
+#        displayed, or a (category / type) in which case the property will be shown
+#        if the object is an (element of / instance of) what was given.
+#
+#    a name: A string which will be used to label the object.
+#
+#    code: The code method which generates the object of interest.
+#
+#    section: This is currently unused.
+###############################################################################
 
 PropertyDisplayer(Parent,  "Object of", code = "category")
 PropertyDisplayer(Element, "Element of", code = "parent")

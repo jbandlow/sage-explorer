@@ -10,7 +10,10 @@ class ReproducibleObject:
     def __init__(self, command, value = None):
         self.command = command
         if value is None:
-           value = eval(command)
+            try:
+                value = eval(command)
+            except NotImplementedError, e:
+                value = "This is not implemented: %s" % e
         self.value = value
 
     def url(self):

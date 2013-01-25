@@ -1,4 +1,4 @@
-{% import 'template_base.html' as base %}
+{% import 'macros/display_base.html' as base %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
   <head>
@@ -26,7 +26,7 @@
     <h2>Output:</h2>
     <center>
       {% block object %}
-      <p> {{ base.display_from_template(object_data['data'], object_data['style']) }} </p>
+      <p> {{ base.display_data_with_style(object_data['data'], object_data['style']) }} </p>
       {% endblock object %}
     </center>
     {% block properties %}
@@ -44,7 +44,7 @@
       <div class='methods'>
       {% if object_methods %}
       <h2>Methods:</h2>
-        {{ base.display_list_of_links(object_methods['data']) }}
+        {{ base.display_list_of_methods(object_methods['data']) }}
         {% endif %}
       </div>
     {% endblock methods %}

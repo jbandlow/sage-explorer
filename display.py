@@ -127,7 +127,7 @@ class PropertyDisplayer:
 
     def predicate(self, obj):
         """
-        Returns whether this plugin applies for the given object obj
+        Returns whether this plugin applies for the given object obj.
 
         EXAMPLES::
 

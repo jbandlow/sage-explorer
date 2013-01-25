@@ -1,4 +1,4 @@
-{% import 'template_base.html' as base %}
+{% import 'macros/display_base.html' as base %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
   <head>
@@ -22,7 +22,7 @@
       <td>Sage command</td><td>Object</td>
       {% for item in example_data %}
       <tr><td><pre>{{ base.display_link(item['url'], item['command']) }}</pre></td>
-      <td>{{ base.display_from_template(item['data'], item['style']) }}</td></tr>
+      <td>{{ base.display_data_with_style(item['data'], item['style']) }}</td></tr>
       {% endfor %}
     </table>
   </div>
