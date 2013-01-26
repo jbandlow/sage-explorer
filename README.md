@@ -15,7 +15,7 @@ How to run it
 You need sage installed (http://sagemath.org). Then, from the
 Sage Explorer directory, run:
 
-    > sage -python sage_explorer
+    > sage -python sage_explorer.py
 
 and connect to the URL that is mentioned (typically http://127.0.0.1:5000/)
 
