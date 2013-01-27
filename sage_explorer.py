@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from flask import send_file
 
 from reproducible_object import ReproducibleObject
 from display import display_object, display_help, display_methods, display_properties
@@ -11,6 +12,10 @@ import config
 # Stupid test that we are not running within Sage
 if not "Permutations" in globals() and __name__ == "__main__":
     app = Flask(__name__)
+
+    @app.route("/favicon.ico")
+    def favicon():
+        return send_file("images/favicon.ico")
 
     @app.route("/<sage_command>")
     def explore(sage_command):
